@@ -1,0 +1,17 @@
+﻿@page "/simple-routing/{text}"
+@page "/advanced-routing/{counter:int}"
+
+<p>Text from parameter: @Text</p>
+@if (Counter.HasValue)
+{
+    <p>Counter: @Counter</p>
+}
+
+@code {
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public int? Counter { get; set; }
+}

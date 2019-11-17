@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontNet.Dashboard", "Front
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontNet.Survey", "FrontNet.Survey\FrontNet.Survey.csproj", "{E6ABF9E8-7FB7-458B-9D3B-52F754F6E820}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontNet.Playground", "FrontNet.Playground\FrontNet.Playground.csproj", "{4B2CAA7E-4B73-406A-81BA-1F798A849D5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E6ABF9E8-7FB7-458B-9D3B-52F754F6E820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6ABF9E8-7FB7-458B-9D3B-52F754F6E820}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6ABF9E8-7FB7-458B-9D3B-52F754F6E820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B2CAA7E-4B73-406A-81BA-1F798A849D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B2CAA7E-4B73-406A-81BA-1F798A849D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B2CAA7E-4B73-406A-81BA-1F798A849D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B2CAA7E-4B73-406A-81BA-1F798A849D5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

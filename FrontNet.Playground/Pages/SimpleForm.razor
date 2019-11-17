@@ -1,0 +1,54 @@
+﻿@page "/simple-form"
+@inject HttpClient Http
+
+<EditForm Model="person"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <h1>Personal form</h1>
+
+    <p class="row">
+        <label class="col-md-2">Enter your age:</label>
+        <InputNumber @bind-Value="person.Age" class="col-md-3" />
+    </p>
+    <p class="row">
+        <label class="col-md-2">Enter your name:</label>
+        <InputText @bind-Value="@person.FullName" />
+    </p>
+    <p class="row">
+        <ValidationMessage For="@(() => person.FullName)" class="col-md-3" />
+    </p>
+    <p class="row">
+        <label class="col-md-2">Password:</label>
+        <InputText @bind-Value="@person.Password" class="col-md-3"/>
+    </p>
+    <p class="row">
+        <label class="col-md-2">Repeat password:</label>
+        <InputText @bind-Value="@person.RepeatPassword" class="col-md-3"/>
+    </p>
+    <p class="row">
+        <ValidationMessage For="@(() => person.RepeatPassword)" class="col-md-3" />
+    </p>
+    <p>
+        <button type="submit">Submit</button>
+    </p>
+
+</EditForm>
+
+@code {
+    private PersonModel person = new PersonModel();
+
+    private async Task HandleValidSubmit()
+    {
+        var result = await Http.PostJsonAsync<object>("https://httpbin.org/post", person);
+        Console.WriteLine(result);
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        Console.WriteLine("The form is not valid :(");
+    }
+}

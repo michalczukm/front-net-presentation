@@ -1,0 +1,18 @@
+﻿<div>
+
+    <p>Hello @FullName</p>
+
+    <button @onclick="OnDeleteAccount">
+        Delete my account
+    </button>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public string FullName { get; set; }
+
+    [Parameter]
+    public EventCallback OnDeleteAccount { get; set; }
+}

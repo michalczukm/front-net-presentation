@@ -1,0 +1,21 @@
+﻿@page "/person"
+
+@if (accountDeleted)
+{
+    <p>Account deleted</p>
+}
+else
+{
+    <PersonDetails FullName="John Rambo"
+                   OnDeleteAccount="() => AccountDeleted()" />
+}
+
+@code {
+
+    private bool accountDeleted;
+
+    private void AccountDeleted()
+    {
+        accountDeleted = true;
+    }
+}
