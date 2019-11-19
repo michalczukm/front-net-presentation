@@ -26,6 +26,7 @@ namespace FrontNet.Dashboard
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddRazorPages();
             services.AddControllers();
             services.AddServerSideBlazor();
@@ -48,6 +49,11 @@ namespace FrontNet.Dashboard
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseCors(c => c
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 
             app.UseRouting();
 
