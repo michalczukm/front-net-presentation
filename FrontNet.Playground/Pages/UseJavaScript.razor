@@ -19,6 +19,11 @@
     private string Selector { get; set; } = "body";
     private BrowserSize ClientSize { get; set; } = new BrowserSize();
 
+    protected override void OnInitialized()
+    {
+        UpdateSize();
+    }
+
     private async void UpdateSize() 
     {
         var jsResult = await JSRuntime.InvokeAsync<BrowserSize>("getElementDimensions", Selector);
