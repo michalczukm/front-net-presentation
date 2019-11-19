@@ -19,6 +19,24 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        window.getElementDimensions = selector => {
+            try {
+                const element = document.querySelector(selector);
+
+                if (!element) {
+                    return null;
+                }
+
+                return {
+                    height: element.scrollHeight,
+                    width: element.scrollWidth
+                };
+            } catch (ex) {
+                return null;
+            }
+        };
+    </script>
 </body>
 
 </html>
