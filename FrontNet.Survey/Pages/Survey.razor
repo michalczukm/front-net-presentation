@@ -18,7 +18,7 @@
             <input type="radio" name="score"
                    checked="@(currentResponse.Score == i)"
                    value="@(i)"
-                   @onchange="@((args) => Score(int.Parse(args.Value.ToString())))" />
+                   @onchange="@((args) => Score(int.Parse(args.Value.ToString())))"/>
         </label>
     }
     <span>Znakomicie</span>
@@ -79,7 +79,7 @@
 
     private bool canPrev => currentQuestionNo > 1;
     private bool canNext => currentQuestionNo < questionsCount;
-    private bool canSubmit => currentQuestionNo == questionsCount;
+    private bool canSubmit => currentQuestionNo == questionsCount && responses.Last().Score > 0;
 
     private void Score(int score)
     {
