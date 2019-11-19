@@ -27,6 +27,7 @@ namespace FrontNet.Dashboard
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddControllers();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
         }
@@ -53,6 +54,7 @@ namespace FrontNet.Dashboard
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
+                endpoints.MapControllers();
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
