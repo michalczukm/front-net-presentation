@@ -1,0 +1,32 @@
+@page "/use-javascript-library"
+@inject IJSRuntime JSRuntime;
+
+<h1>Sample chart</h1>
+
+<canvas id="chart-canvas"></canvas>
+
+@code {
+    private string _chartCanvasSelector = "#chart-canvas";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) 
+        {
+            await InitializeChart();
+        }
+    }
+
+    private async Task InitializeChart() 
+    {
+        await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.drawChart", 
+            _chartCanvasSelector, 
+            "pie",
+            new {
+                Data = new List<int> { 100, 200, 300, 400},
+                Labels = new List<string> { "A", "B", "C", "D" }
+            }
+        );
+
+        StateHasChanged();
+    }
+}
