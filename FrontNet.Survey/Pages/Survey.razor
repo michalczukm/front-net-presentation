@@ -66,7 +66,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        survey = await http.GetJsonAsync<IReadOnlyList<SurveyQuestion>>("https://localhost:5001/api/survey");
+        survey = await http.GetJsonAsync<IReadOnlyList<SurveyQuestion>>("https://dashboard.aspblazor.pl/api/survey");
         responses = survey.Select(x => new SurveyQuestionResponse
         {
             QuestionId = x.Id,
@@ -95,7 +95,7 @@
         else
         {
             response.QuestionResponses = responses;
-            await http.PostJsonAsync("https://localhost:5001/api/survey", response);
+            await http.PostJsonAsync("https://dashboard.aspblazor.pl/api/survey", response);
             navigation.NavigateTo("/thank-you");
         }
     }
