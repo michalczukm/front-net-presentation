@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject HttpClient http
+@inject HttpClient http;
 @inject IJSRuntime jsRuntime;
 @inject NavigationManager navigation;
 @using FrontNet.Common.Models;
@@ -48,6 +48,14 @@
                 </div>
             </EditForm>
         }
+    </div>
+}
+else 
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="spinner-border text-info" style="width: 5rem; height: 5rem;" role="status">
+            <span class="sr-only">Pobieram pytania...</span>
+        </div>
     </div>
 }
 
