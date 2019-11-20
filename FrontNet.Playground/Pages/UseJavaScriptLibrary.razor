@@ -1,0 +1,42 @@
+@page "/use-javascript-library"
+@inject IJSRuntime JSRuntime;
+
+<h1><code style="color: blue">@Selector</code> Size</h1>
+
+<input @onkeypress="SelectorKeyPressed" @bind="@Selector" />
+
+<p>Height: @ClientSize.Height</p>
+<p>Width @ClientSize.Width</p>
+
+<button class="btn btn-primary" @onclick="UpdateSize">Show me the size!</button>
+
+@code {
+    class BrowserSize {
+        public int Height { get; set; }
+        public int Width { get; set; }
+    }
+
+    private string Selector { get; set; } = "body";
+    private BrowserSize ClientSize { get; set; } = new BrowserSize();
+
+    protected override void OnInitialized()
+    {
+        UpdateSize();
+    }
+
+    private async void UpdateSize() 
+    {
+        var jsResult = await JSRuntime.InvokeAsync<BrowserSize>("getElementDimensions", Selector);
+
+        ClientSize = jsResult != null ? jsResult : new BrowserSize();
+
+        StateHasChanged();
+    }
+
+    private void SelectorKeyPressed(KeyboardEventArgs args) {
+        if(args.Key == "Enter")
+        {
+            UpdateSize();
+        }
+    }
+}
