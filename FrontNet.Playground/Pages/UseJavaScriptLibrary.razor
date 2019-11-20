@@ -1,42 +1,32 @@
 @page "/use-javascript-library"
 @inject IJSRuntime JSRuntime;
 
-<h1><code style="color: blue">@Selector</code> Size</h1>
+<h1>Sample chart</h1>
 
-<input @onkeypress="SelectorKeyPressed" @bind="@Selector" />
-
-<p>Height: @ClientSize.Height</p>
-<p>Width @ClientSize.Width</p>
-
-<button class="btn btn-primary" @onclick="UpdateSize">Show me the size!</button>
+<canvas id="chart-canvas"></canvas>
 
 @code {
-    class BrowserSize {
-        public int Height { get; set; }
-        public int Width { get; set; }
+    private string _chartCanvasSelector = "#chart-canvas";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) 
+        {
+            InitializeChart();
+        }
     }
 
-    private string Selector { get; set; } = "body";
-    private BrowserSize ClientSize { get; set; } = new BrowserSize();
-
-    protected override void OnInitialized()
+    private async void InitializeChart() 
     {
-        UpdateSize();
-    }
-
-    private async void UpdateSize() 
-    {
-        var jsResult = await JSRuntime.InvokeAsync<BrowserSize>("getElementDimensions", Selector);
-
-        ClientSize = jsResult != null ? jsResult : new BrowserSize();
+        await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.drawChart", 
+            _chartCanvasSelector, 
+            "pie",
+            new {
+                Data = new List<int> { 100, 200, 300, 400},
+                Labels = new List<string> { "A", "B", "C", "D" }
+            }
+        );
 
         StateHasChanged();
-    }
-
-    private void SelectorKeyPressed(KeyboardEventArgs args) {
-        if(args.Key == "Enter")
-        {
-            UpdateSize();
-        }
     }
 }

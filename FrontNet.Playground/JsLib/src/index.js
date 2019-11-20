@@ -23,7 +23,7 @@ export const charts = {
                 }]
             },
             options: {
-                animation: true,
+                responsive: true,
                 legend: {
                     position: 'right'
                 },
