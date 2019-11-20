@@ -12,11 +12,11 @@
     {
         if (firstRender) 
         {
-            InitializeChart();
+            await InitializeChart();
         }
     }
 
-    private async void InitializeChart() 
+    private async Task InitializeChart() 
     {
         await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.drawChart", 
             _chartCanvasSelector, 
