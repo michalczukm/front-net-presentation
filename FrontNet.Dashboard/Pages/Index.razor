@@ -7,7 +7,6 @@
 
 @if (isReady)
 {
-    <button @onclick="() => UpdateCharts()">Press</button>
     <div class="dashboard">
         @foreach (var questionReport in surveyReport.QuestionsReports)
         {
@@ -19,18 +18,33 @@
 @code {
     private SurveyReport surveyReport;
     private bool isReady => surveyReport != null;
+    private bool shouldFetchReports = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             CreateCharts();
+
+            await Task.Run(async () => {
+                while(shouldFetchReports) 
+                {
+                    await Task.Delay(1000);
+                    await UpdateCharts();
+                    InvokeAsync(() => StateHasChanged());
+                }
+            });
         }
+    }
+
+    public void Dispose()
+    {
+        shouldFetchReports = false;
     }
 
     private string getQuestionCanvasId(SurveyQuestionReport report) => $"question-chart-{report.QuestionId}";
 
-    private async void CreateCharts() 
+    private async Task CreateCharts() 
     {
         surveyReport = await surveysService.GetReport();
         StateHasChanged();
@@ -48,18 +62,16 @@
             }
     }
 
-    private async void UpdateCharts() 
+    private async Task UpdateCharts() 
     {
         surveyReport = await surveysService.GetReport();
 
         foreach (var questionReport in surveyReport.QuestionsReports)
-            {
-                await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.updateChart", 
-                    $"#{getQuestionCanvasId(questionReport)}",
-                    questionReport.Responses.Select(response => response.Value)
-                );
-            }
-            
-        StateHasChanged();
+        {
+            await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.updateChart", 
+                $"#{getQuestionCanvasId(questionReport)}",
+                questionReport.Responses.Select(response => response.Value)
+            );
+        }
     }
 }

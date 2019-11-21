@@ -12,7 +12,6 @@ const getColorsSet = () => defaultColors;
 const chartsRegistry = {};
 
 const createChart = (canvasSelector, type, { title = '', data = [], labels = [] }) => {
-    console.log(canvasSelector);
     const canvas = document.querySelector(canvasSelector).getContext('2d');
 
     const chart = new Chart(canvas, {
