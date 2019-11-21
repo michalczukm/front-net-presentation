@@ -3,6 +3,10 @@ WORKDIR /app
 
 COPY ./ ./
 
+RUN apt-get install --yes curl
+RUN curl --silent --location https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install --yes nodejs
+
 RUN dotnet publish -c Release -o out FrontNet.Dashboard
 
 # Build runtime image
