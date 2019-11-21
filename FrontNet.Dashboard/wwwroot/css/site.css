@@ -52,6 +52,12 @@ app {
 
 .dashboard {
     display: flex;
+    flex-wrap: wrap;
+}
+
+.dashboard canvas{
+    max-width: 600px;
+    max-height: 600px;
 }
 
 @media (min-width: 768px) {

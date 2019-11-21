@@ -11,6 +11,7 @@ namespace FrontNet.Dashboard.Services
 {
     public class SurveysService
     {
+        private IList<int> POSSIBLE_ANSWERS = Enumerable.Range(1, 5).ToList();
         private IConfiguration _configuration;
 
         public SurveysService(IConfiguration configuration)
@@ -57,15 +58,11 @@ namespace FrontNet.Dashboard.Services
             var questionsReports = responses
                 .SelectMany(response => response.QuestionResponses)
                 .GroupBy(questionResponse => questionResponse.QuestionId)
-                .Select((group, questionId) => new SurveyQuestionReport
+                .Select((group) => new SurveyQuestionReport
                 {
-                    QuestionId = questionId,
-                    QuestionText = questionsDict.GetValueOrDefault<int, string>(questionId, "==="),
-                    Responses = group.GroupBy(answer => answer.Score).Select((answersForScore, score) => new SurveyReportResponse
-                    {
-                        Answer = score.ToString(),
-                        Value = answersForScore.Sum(answer => answer.Score)
-                    }).ToList()
+                    QuestionId = group.Key,
+                    QuestionText = questionsDict.GetValueOrDefault(group.Key, "==="),
+                    Responses = CalculateResponses(group)
                 }).ToList();
 
             return new SurveyReport
@@ -73,6 +70,21 @@ namespace FrontNet.Dashboard.Services
                 Comments = comments,
                 QuestionsReports = questionsReports
             };
+        }
+
+        private List<SurveyReportResponse> CalculateResponses(IGrouping<int, SurveyQuestionResponse> group)
+        {
+            var answersDict = group.GroupBy(answer => answer.Score).Select((answersForScore) => new SurveyReportResponse
+            {
+                Answer = answersForScore.Key.ToString(),
+                Value = answersForScore.Count()
+            }).ToDictionary(report => report.Answer);
+
+            return POSSIBLE_ANSWERS.Select(answer => answersDict.GetValueOrDefault<string, SurveyReportResponse>(answer.ToString(), new SurveyReportResponse
+            {
+                Answer = answer.ToString(),
+                Value = 0
+            })).ToList();
         }
 
         public async Task AddSurveyResponse(SurveyResponse response)
@@ -86,7 +98,7 @@ namespace FrontNet.Dashboard.Services
             {
                 responses = await JsonSerializer.DeserializeAsync<List<SurveyResponse>>(stream);
             }
-            catch 
+            catch
             {
                 // broken json, or empty file. We don't care.
             }
