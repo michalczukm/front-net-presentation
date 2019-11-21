@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FrontNet.Common.Models;
+using FrontNet.Dashboard.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.IO;
-using Microsoft.Extensions.Configuration;
 
 namespace FrontNet.Dashboard.Api
 {
@@ -12,50 +10,27 @@ namespace FrontNet.Dashboard.Api
     [ApiController]
     public class SurveyController : ControllerBase
     {
-        private IConfiguration _configuration;
+        private SurveysService _surveysService;
 
-        public SurveyController(IConfiguration configuration)
+        public SurveyController(SurveysService surveysService)
         {
-            _configuration = configuration;
+            _surveysService = surveysService;
         }
 
         public ActionResult<IReadOnlyCollection<SurveyQuestion>> Get()
         {
-            return Ok(new List<SurveyQuestion>
-            {
-                new SurveyQuestion
-                {
-                    Id = 1,
-                    Question = "Jak dobrze znasz C#?"
-                },                
-                new SurveyQuestion
-                {
-                    Id = 2,
-                    Question = "Jak oceniasz WebAssembly?"
-                },
-                new SurveyQuestion
-                {
-                    Id = 3,
-                    Question = "Jak oceniasz Blazora?"
-                },
-                new SurveyQuestion
-                {
-                    Id = 4,
-                    Question = "Jak oceniasz prezentację?"
-                },
-            });
+            return Ok(_surveysService.GetQuestions());
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateSurveyResponse(SurveyResponse response)
         {
-            var filePath = _configuration.GetValue<string>("Survey:FilePath");
-            using var stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
-            var responses = await JsonSerializer.DeserializeAsync<List<SurveyResponse>>(stream);
-            responses.Add(response);
-            stream.Seek(0, SeekOrigin.Begin);
-            await JsonSerializer.SerializeAsync(stream, responses);
-            return Ok();
+            // try {
+                await _surveysService.AddSurveyResponse(response);
+                return Ok();
+            // } catch {
+                // return StatusCode(500);
+            // }
         }
     }
 }
