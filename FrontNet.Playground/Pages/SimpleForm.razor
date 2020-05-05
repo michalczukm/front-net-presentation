@@ -23,11 +23,11 @@
     </p>
     <p class="row">
         <label class="col-md-2">Password:</label>
-        <InputText @bind-Value="@person.Password" class="col-md-3"/>
+        <InputText @bind-Value="@person.Password" class="col-md-3" />
     </p>
     <p class="row">
         <label class="col-md-2">Repeat password:</label>
-        <InputText @bind-Value="@person.RepeatPassword" class="col-md-3"/>
+        <InputText @bind-Value="@person.RepeatPassword" class="col-md-3" />
     </p>
     <p class="row">
         <ValidationMessage For="@(() => person.RepeatPassword)" class="col-md-3" />
@@ -43,7 +43,7 @@
 
     private async Task HandleValidSubmit()
     {
-        var result = await Http.PostJsonAsync<object>("https://httpbin.org/post", person);
+        var result = await Http.PostAsJsonAsync<object>("https://httpbin.org/post", person);
         Console.WriteLine(result);
     }
 

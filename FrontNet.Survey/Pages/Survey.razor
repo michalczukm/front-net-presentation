@@ -8,10 +8,10 @@
 
 @if (isReady)
 {
-    <p>Pytanie @currentQuestionNo / @questionsCount</p>
+    <p>Question @currentQuestionNo / @questionsCount</p>
     <p>@currentQuestion.Question</p>
 
-    <span>Słabo</span>
+    <span>Poor</span>
     @for (int i = 1; i <= 6; i++)
     {
         <label>
@@ -21,7 +21,7 @@
                    @onchange="@((args) => Score(int.Parse(args.Value.ToString())))"/>
         </label>
     }
-    <span>Znakomicie</span>
+    <span>Excellent</span>
 
     <div>
         <div class="mt-2">
@@ -38,10 +38,10 @@
         {
             <EditForm Model="response" OnValidSubmit="Submit">
                 <div class="mt-3">
-                    <InputTextArea placeholder="Dodatkowy komentarz (niewymagane)" @bind-Value="response.AdditionalComment" />
+                    <InputTextArea placeholder="Additional comment (not required)" @bind-Value="response.AdditionalComment" />
                 </div>
                 <div class="mt-2">
-                    <InputText placeholder="Podpis (niewymagane)" @bind-Value="response.Author" />
+                    <InputText placeholder="Author (not required)" @bind-Value="response.Author" />
                 </div>
                 <div class="mt-2">
                     <button class="btn btn-primary">Submit</button>
@@ -54,7 +54,7 @@ else
 {
     <div class="d-flex justify-content-center align-items-center">
         <div class="spinner-border text-info" style="width: 5rem; height: 5rem;" role="status">
-            <span class="sr-only">Pobieram pytania...</span>
+            <span class="sr-only">Fetching questions...</span>
         </div>
     </div>
 }
@@ -74,7 +74,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        survey = await http.GetJsonAsync<IReadOnlyList<SurveyQuestion>>("https://dashboard.aspblazor.pl/api/survey");
+        survey = await http.GetFromJsonAsync<IReadOnlyList<SurveyQuestion>>("http://localhost:5000/api/survey");
         responses = survey.Select(x => new SurveyQuestionResponse
         {
             QuestionId = x.Id,
@@ -103,7 +103,7 @@ else
         else
         {
             response.QuestionResponses = responses;
-            await http.PostJsonAsync("https://dashboard.aspblazor.pl/api/survey", response);
+            await http.PostAsJsonAsync("http://localhost:5000/api/survey", response);
             navigation.NavigateTo("/thank-you");
         }
     }

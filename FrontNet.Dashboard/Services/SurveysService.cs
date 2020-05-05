@@ -26,22 +26,22 @@ namespace FrontNet.Dashboard.Services
                 new SurveyQuestion
                 {
                     Id = 1,
-                    Question = "Jak dobrze znasz C#?"
+                    Question = "How well do you know C#?"
                 },
                 new SurveyQuestion
                 {
                     Id = 2,
-                    Question = "Jak oceniasz WebAssembly?"
+                    Question = "How do you rate WebAssembly?"
                 },
                 new SurveyQuestion
                 {
                     Id = 3,
-                    Question = "Jak oceniasz Blazora?"
+                    Question = "How do you rate Blazora?"
                 },
                 new SurveyQuestion
                 {
                     Id = 4,
-                    Question = "Jak oceniasz prezentację?"
+                    Question = "How do you rate the session?"
                 },
             };
         }

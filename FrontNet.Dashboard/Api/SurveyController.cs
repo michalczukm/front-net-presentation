@@ -25,12 +25,8 @@ namespace FrontNet.Dashboard.Api
         [HttpPost]
         public async Task<IActionResult> CreateSurveyResponse(SurveyResponse response)
         {
-            // try {
-                await _surveysService.AddSurveyResponse(response);
-                return Ok();
-            // } catch {
-                // return StatusCode(500);
-            // }
+            await _surveysService.AddSurveyResponse(response);
+            return Ok();
         }
     }
 }
