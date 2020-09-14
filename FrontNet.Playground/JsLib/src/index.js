@@ -10,8 +10,8 @@ const defaultColors = [
 const getColorsSet = () => defaultColors;
 
 export const charts = {
-    drawChart: (canvasSelector, type, { data = [], labels = [] }) => {
-        const canvas = document.querySelector(canvasSelector).getContext('2d');
+    drawChart: (canvasElement, type, { data = [], labels = [] }) => {
+        const canvas = canvasElement.getContext('2d');
 
         new Chart(canvas, {
             type,

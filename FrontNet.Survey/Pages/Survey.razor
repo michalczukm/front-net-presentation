@@ -98,7 +98,7 @@ else
     {
         if (responses.Any(x => x.Score == 0))
         {
-            await jsRuntime.InvokeVoidAsync("alert", "Prosimy o odpowiedź w każdym pytaniu");
+            await jsRuntime.InvokeVoidAsync("alert", "Please answer all questions");
         }
         else
         {

@@ -3,10 +3,10 @@
 
 <h1>Sample chart</h1>
 
-<canvas id="chart-canvas"></canvas>
+<canvas @ref="charCanvas"></canvas>
 
 @code {
-    private string _chartCanvasSelector = "#chart-canvas";
+    private ElementReference charCanvas;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -19,7 +19,7 @@
     private async Task InitializeChart() 
     {
         await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.drawChart", 
-            _chartCanvasSelector, 
+            charCanvas, 
             "pie",
             new {
                 Data = new List<int> { 100, 200, 300, 400},
