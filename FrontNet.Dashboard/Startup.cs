@@ -1,9 +1,15 @@
-using FrontNet.Dashboard.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using FrontNet.Dashboard.Services;
 
 namespace FrontNet.Dashboard
 {
@@ -39,12 +45,13 @@ namespace FrontNet.Dashboard
                 app.UseExceptionHandler("/Error");
             }
 
+
             app.UseStaticFiles();
 
             app.UseCors(c => c
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod());
+               .AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod());
 
             app.UseRouting();
 
