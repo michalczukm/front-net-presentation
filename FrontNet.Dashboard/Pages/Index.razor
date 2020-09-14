@@ -26,8 +26,9 @@
         {
             CreateCharts();
 
-            await Task.Run(async () => {
-                while(shouldFetchReports) 
+            await Task.Run(async () =>
+            {
+                while (shouldFetchReports)
                 {
                     await Task.Delay(1000);
                     await UpdateCharts();
@@ -44,31 +45,32 @@
 
     private string getQuestionCanvasId(SurveyQuestionReport report) => $"question-chart-{report.QuestionId}";
 
-    private async Task CreateCharts() 
+    private async Task CreateCharts()
     {
         surveyReport = await surveysService.GetReport();
         StateHasChanged();
 
         foreach (var questionReport in surveyReport.QuestionsReports)
+        {
+            await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.createChart",
+            $"#{getQuestionCanvasId(questionReport)}",
+            "pie",
+            new
             {
-                await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.createChart", 
-                $"#{getQuestionCanvasId(questionReport)}",
-                "pie",
-                new {
-                    Title = questionReport.QuestionText,
-                    Data = questionReport.Responses.Select(response => response.Value),
-                    Labels = questionReport.Responses.Select(response => response.Answer)
-                });
-            }
+                Title = questionReport.QuestionText,
+                Data = questionReport.Responses.Select(response => response.Value),
+                Labels = questionReport.Responses.Select(response => response.Answer)
+            });
+        }
     }
 
-    private async Task UpdateCharts() 
+    private async Task UpdateCharts()
     {
         surveyReport = await surveysService.GetReport();
 
         foreach (var questionReport in surveyReport.QuestionsReports)
         {
-            await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.updateChart", 
+            await JSRuntime.InvokeVoidAsync("FrontNetJS.charts.updateChart",
                 $"#{getQuestionCanvasId(questionReport)}",
                 questionReport.Responses.Select(response => response.Value)
             );

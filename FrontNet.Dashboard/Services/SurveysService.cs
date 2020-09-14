@@ -36,7 +36,7 @@ namespace FrontNet.Dashboard.Services
                 new SurveyQuestion
                 {
                     Id = 3,
-                    Question = "How do you rate Blazora?"
+                    Question = "How do you rate Blazor?"
                 },
                 new SurveyQuestion
                 {

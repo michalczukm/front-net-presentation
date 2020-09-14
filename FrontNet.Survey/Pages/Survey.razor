@@ -74,7 +74,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        survey = await http.GetFromJsonAsync<IReadOnlyList<SurveyQuestion>>("http://localhost:5000/api/survey");
+        survey = await http.GetFromJsonAsync<IReadOnlyList<SurveyQuestion>>("https://localhost:44302/api/survey");
         responses = survey.Select(x => new SurveyQuestionResponse
         {
             QuestionId = x.Id,
@@ -103,7 +103,7 @@ else
         else
         {
             response.QuestionResponses = responses;
-            await http.PostAsJsonAsync("http://localhost:5000/api/survey", response);
+            await http.PostAsJsonAsync("https://localhost:44302/api/survey", response);
             navigation.NavigateTo("/thank-you");
         }
     }
