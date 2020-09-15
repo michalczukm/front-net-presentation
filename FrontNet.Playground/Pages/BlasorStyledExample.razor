@@ -1,14 +1,12 @@
 ﻿@page "/blazor-styled"
 
-<h1>⚠️ This page is styled by <a href="https://blazorstyled.io/">BlazorStyled</a>, after you visit it - it will override your styles. EVERYWHERE!</h1>
-
-<span>Colored span</span>
-<div>Div with background</div>
-<a href="#">Sample link with background</a>
+<Styled @bind-Classname="@styledClass">
+    color: red;
+</Styled>
 
 <Styled>
     span {
-        color: pink:
+        color: @color:
     }
 
     div {
@@ -21,4 +19,13 @@
     }
 </Styled>
 
-@code {}
+<h1 class="@styledClass">⚠️ This page is styled by <a href="https://blazorstyled.io/">BlazorStyled</a>, after you visit it - it will override your styles. EVERYWHERE!</h1>
+
+<span>Colored span</span>
+<div>Div with background</div>
+<a href="#">Sample link with background</a>
+
+@code {
+    private string color = "pink";
+    private string styledClass;
+}
